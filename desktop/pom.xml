@@ -4,11 +4,11 @@
 
   <groupId>chetanya.desktop</groupId>
   <artifactId>c_mouse</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
 
   <name>c_mouse</name>
-  <url>http://maven.apache.org</url>
+  <url>https://github.com/chetanya95/c-mouse</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -29,4 +29,49 @@
 	</dependency>
   </dependencies>
   
+    <build>
+        <plugins>
+            <plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-compiler-plugin</artifactId>
+			    <version>3.8.0</version>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.1.1</version>
+				<executions>
+				  <execution>
+					<id>copy-dependencies</id>
+					<phase>package</phase>
+					<goals>
+					    <goal>copy-dependencies</goal>
+					</goals>
+					<configuration>
+					    <outputDirectory>
+			                 ${project.build.directory}/lib/
+			            </outputDirectory>
+					</configuration>
+				    </execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.1.1</version>
+				<configuration>
+				  <archive>
+				    <manifest>
+				      <addClasspath>true</addClasspath>
+				      <classpathPrefix>lib/</classpathPrefix>
+				      <mainClass>com.chetanya.desktop.c_mouse.App</mainClass>
+				    </manifest>
+				  </archive>
+				</configuration>
+		    </plugin>
+			
+        </plugins>
+    </build>
 </project>

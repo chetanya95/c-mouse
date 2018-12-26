@@ -1,4 +1,4 @@
-package chetanya.desktop.c_mouse;
+package com.chetanya.desktop.c_mouse;
 
 import java.awt.AWTException;
 import java.awt.Dimension;
@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -20,7 +21,7 @@ import org.json.JSONObject;
  */
 public class App {
 
-    private static final int SERVER_PORT = 2802;
+    private static final int SERVER_PORT = 8095;
     private static final int MAX_PACKET_SIZE = 2048;
     private static final int TIMEOUT = 2000; // milliseonds
     private static final String DISCOVERY_REQUEST = "Where are you C-Mouse Server?";
@@ -44,10 +45,7 @@ public class App {
 		try {
 			// 0.0.0.0 means all IPv4 address on this machine.
 			InetAddress addr = InetAddress.getByName( "0.0.0.0" );
-//			InetAddress addr = NetworkUtil.getMyAddress();
 			socket = new DatagramSocket(SERVER_PORT, addr);
-			// set flag to enable receipt of broadcast packets
-			//socket.setBroadcast(true);
 		} catch (Exception ex) {
 			String msg = "Could not create UDP socket on port " + SERVER_PORT;
 			System.err.println(msg);
@@ -74,7 +72,7 @@ public class App {
 	
 			String message = new String(packet.getData()).trim();
 			if (message.contains(DISCOVERY_REQUEST)) {
-				System.out.println("Received data: " + new String(packet.getData()) );
+				System.out.println("Received data: " + message );
 				System.out.println(String.format("Packet received from %s:%d", clientAddress.getHostAddress(), clientPort) );
 				sendIP(clientAddress, clientPort);
 			}
@@ -90,10 +88,11 @@ public class App {
 				if(jsonObject.has("movement")) {
 					movePointer(jsonObject);
 				}else if(jsonObject.has("touch")) {
-					System.out.println("Received data: " + new String(packet.getData()) );
+					System.out.println("Received data: " + message );
 					performTouchOperation(jsonObject);
 				}
 				else {
+					System.err.println("Received data: " + message );
 					System.err.println(String.format("Packet from %s:%d not a valid packet",
 							clientAddress.getHostAddress(), clientPort) );
 					continue;
@@ -180,6 +179,19 @@ public class App {
 		}else if(touchData.equals("Left Click")){
 			robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
 			robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+		}else if(touchData.equals("Windows Key")){
+			robot.keyPress(KeyEvent.VK_WINDOWS);  
+			robot.keyRelease(KeyEvent.VK_WINDOWS); 
+		}else if(touchData.equals("Alt + F4")){
+			robot.keyPress(KeyEvent.VK_ALT);  
+			robot.keyPress(KeyEvent.VK_F4);  
+			robot.keyRelease(KeyEvent.VK_ALT);  
+			robot.keyRelease(KeyEvent.VK_F4);
+		}else if(touchData.equals("Alt + Tab")){
+			robot.keyPress(KeyEvent.VK_ALT);  
+			robot.keyPress(KeyEvent.VK_TAB);  
+			robot.keyRelease(KeyEvent.VK_ALT);  
+			robot.keyRelease(KeyEvent.VK_TAB);
 		}else {
 			System.err.println("Invalid touchData");
 			return false;

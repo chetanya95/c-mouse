@@ -17,7 +17,8 @@
         android:layout_margin="4dp"
         android:alpha="0.5"
         android:background="@null"
-        app:srcCompat="@drawable/ic_settings" />
+        app:srcCompat="@drawable/ic_settings"
+        android:onClick="settingsClick"/>
 
     <TextView
         android:id="@+id/sensorReadings"
@@ -34,7 +35,7 @@
         android:layout_weight="8">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/leftButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_margin="4dp"
@@ -43,7 +44,7 @@
             android:onClick="leftClick"/>
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/rightButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_margin="4dp"

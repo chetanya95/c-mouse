@@ -1,4 +1,4 @@
-package com.chetanya.android.c_mouse.datas.intefaces;
+package com.chetanya.android.c_mouse.inputs.intefaces;
 
 import java.io.Serializable;
 

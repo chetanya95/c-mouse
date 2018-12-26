@@ -5,8 +5,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.widget.TextView;
 
-import com.chetanya.android.c_mouse.datas.Movement;
-import com.chetanya.android.c_mouse.services.SocketService;
+import com.chetanya.android.c_mouse.inputs.Movement;
+import com.chetanya.android.c_mouse.utils.SocketUtil;
 
 public class SensorListener implements SensorEventListener {
 
@@ -35,20 +35,20 @@ public class SensorListener implements SensorEventListener {
             float preciseY = sensorEvent.values[1];
             float preciseZ = sensorEvent.values[2];
 
-            double roundX = Math.round(preciseX * 10000) / 10000.0;
-            double roundY = Math.round(preciseY * 10000) / 10000.0;
-            double roundZ = Math.round(preciseZ * 10000) / 10000.0;
+            float roundX = Math.round(preciseX * 10000) / 10000.0f;
+            float roundY = Math.round(preciseY * 10000) / 10000.0f;
+            float roundZ = Math.round(preciseZ * 10000) / 10000.0f;
 
-            String sensorReadings = "Sensor Readings\n" + "x: "+ Double.toString(roundX) + ", y: " + Double.toString(roundY) + " z: " + Double.toString(roundZ);
+            String sensorReadings = "Sensor Readings\n" + "x: "+ Float.toString(roundX) + ", y: " + Float.toString(roundY) + " z: " + Float.toString(roundZ);
             sensorReadingsView.setText(sensorReadings);
 
             //as delta(t) is constant, directly multiplying acceleration by a constant to get movement
             Movement movement = new Movement();
 
-            movement.setX(-((int) Math.round(roundX * MOVEMENT_CONSTANT)));
-            movement.setY(((int) Math.round(roundY * MOVEMENT_CONSTANT)));
+            movement.setX(-Math.round(roundX * MOVEMENT_CONSTANT));
+            movement.setY( Math.round(roundY * MOVEMENT_CONSTANT));
 
-            SocketService.sendData(movement);
+            SocketUtil.sendData(movement);
 
         }
 

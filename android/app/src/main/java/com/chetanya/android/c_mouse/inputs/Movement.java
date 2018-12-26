@@ -1,8 +1,8 @@
-package com.chetanya.android.c_mouse.datas;
+package com.chetanya.android.c_mouse.inputs;
 
 import android.util.Log;
 
-import com.chetanya.android.c_mouse.datas.intefaces.InputData;
+import com.chetanya.android.c_mouse.inputs.intefaces.InputData;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package chetanya.desktop.c_mouse;
+package com.chetanya.desktop.c_mouse;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
